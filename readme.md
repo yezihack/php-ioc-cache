@@ -29,7 +29,3 @@
 - [使用外部配置文件](test/exa-config.php)
 - [扩展缓存](test/exa-extends.php)
 - [注册独立缓存](test/exa-register.php)
-
-
-
-
