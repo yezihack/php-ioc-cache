@@ -4,7 +4,6 @@
 
 采用注入方法实现缓存,可以自由扩展,只需要继承StoreAbstract
 
-
 ## 文件列表
 - src/Cache.php 缓存入口类及注册
 - src/CacheContainer.php 依赖注入容器
@@ -29,4 +28,3 @@
 - [使用外部配置文件](test/exa-config.php)
 - [扩展缓存](test/exa-extends.php)
 - [注册独立缓存](test/exa-register.php)
-
