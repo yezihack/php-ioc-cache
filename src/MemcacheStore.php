@@ -25,14 +25,15 @@ class MemcacheStore extends StoreAbstract
         if (!isset($config['host']) || !isset($config['port'])) {
             throw new \Exception('The ' . __METHOD__ . ' engine configure item does not have a host or port node.');
         }
-        if (isset($config['is_zip'], $config['zip_level']) && $config['is_zip']) {
-            $this->config['zip_level'] = $config['zip_level'];//1表示经过序列化，但未经过压缩，2表明压缩而未序列化，3表明压缩并且序列化，0表明未经过压缩和序列化
-        }
+
         if (!extension_loaded('memcache')) {
             throw new \Exception('Memcache extension is not installed.');
         }
         $this->app = new \Memcache();
         $this->app->addServer($config['host'], $config['port']);
+        if (isset($config['is_zip'], $config['zip_level']) && $config['is_zip']) {
+            $this->config['zip_level'] = $config['zip_level'];//1表示经过序列化，但未经过压缩，2表明压缩而未序列化，3表明压缩并且序列化，0表明未经过压缩和序列化
+        }
     }
 
     /**
@@ -62,7 +63,7 @@ class MemcacheStore extends StoreAbstract
      */
     public function get($key, $default = false)
     {
-        $value = $this->app->get($this->getKey($key), $this->config['zip_level']);
+        $value = $this->app->get($this->getKey($key));
         if ($value !== false) {
             return $value;
         }
@@ -91,9 +92,6 @@ class MemcacheStore extends StoreAbstract
     public function add($key, $value, $minutes = null)
     {
         $minutes = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        if ($this->config['is_zip']) {
-            return $this->app->add($this->getKey($key), $this->value($value), $minutes, $this->config['zip_level']);
-        }
         return $this->app->add($this->getKey($key), $this->value($value), $minutes);
     }
 
@@ -108,7 +106,7 @@ class MemcacheStore extends StoreAbstract
     {
         $minutes = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
         if ($this->config['is_zip']) {
-            return $this->app->set($this->getKey($key), $this->value($value), $minutes, $this->config['zip_level']);
+            return $this->app->set($this->getKey($key), $this->value($value), $minutes);
         }
         return $this->app->set($this->getKey($key), $this->value($value), $minutes);
     }

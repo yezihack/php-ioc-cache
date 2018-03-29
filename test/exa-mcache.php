@@ -10,9 +10,11 @@ require 'helper.php';
 require '../autoload.php';
 
 use SgIoc\Cache\Cache;
-use \SgIoc\Cache\MCache;
+use SgIoc\Cache\MCache;
 $config = include('config.php');
 //注册缓存
 Cache::register($config);
-MCache::put('key', 'abc');//相当于Cache::store('memcache')->put();
-MCache::get('key');//相当于Cache::store('memcache')->get();
+$rs = MCache::info();
+dump($rs);
+//MCache::put('key', 'abc');//相当于Cache::store('memcache')->put();
+//MCache::get('key');//相当于Cache::store('memcache')->get();
