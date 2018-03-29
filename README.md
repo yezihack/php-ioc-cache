@@ -5,7 +5,7 @@
 采用注入方法实现缓存,可以自由扩展,只需要继承StoreAbstract
 
 ## 更新日志
-[更新日志v1.0.1](CHANGELOG.md)
+[更新日志v1.0.2](CHANGELOG.md)
 
 ## 文件列表
 - src/Cache.php 缓存入口类及注册
@@ -31,6 +31,32 @@
 - [使用外部配置文件](test/exa-config.php)
 - [扩展缓存](test/exa-extends.php)
 - [注册独立缓存](test/exa-register.php)
+
+
+## put 写入缓存,保存时间10分钟
+Cache::put('key', 'data', 10);
+
+## get 获取缓存
+Cache::get('key');
+
+## remember 写入和获取集成写法,支持匿名函数
+```php
+#普通写法
+$data = Cache::remember("key", 10, "data");
+#匿名函数写法 
+$data = Cache::remember("key", 10, function(){  
+    return '1234567890';
+});
+```
+
+## forget 删除缓存
+Cache::forget('key')
+
+## flush 清除所有的缓存
+Cache::flush()
+
+## 切换不同引擎缓存操作
+Cache::store('memcache')->get('key');
 
 ## 实用操作
 ```php
@@ -73,3 +99,4 @@ try {
     dump($ex->getMessage());
 }
 ```
+

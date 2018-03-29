@@ -6,7 +6,7 @@
  * Time: 15:53
  */
 return array(
-    'default'  => 'file',
+    'default'  => 'file',//设置默认引擎
     'file'     => array(//文件存储引擎
         'expired'   => 7200,//默认存储时间
         'path'      => __DIR__ . '/storage/',//存储目录,必须可写
