@@ -1,6 +1,6 @@
 .DS_Store
 .idea/*
 vendor/*
-test/storage//*
+test/storage/*
 composer.phar
 composer.lock
