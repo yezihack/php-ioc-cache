@@ -41,7 +41,7 @@ class MemcacheStore extends StoreAbstract
      */
     public function info()
     {
-        return array_merge($this->config, array('link' => $this->app, 'stats' => $this->app->getStats()));
+        return array('link' => $this->app, 'config' => $this->config, 'stats' => $this->app->getStats());
     }
 
     /**

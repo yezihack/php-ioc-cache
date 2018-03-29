@@ -60,6 +60,10 @@ Cache::flush()
 - 系统提供一种快捷操作:
 - MCache::get('key') 相当于上面的代码
 
+## 获取当前缓存详情运行情况 
+- Cache::info();
+- Cache::store('memcache')->info();
+- MCache::info();
 
 
 ## 完整实例操作
