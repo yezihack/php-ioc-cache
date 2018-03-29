@@ -8,12 +8,21 @@
 [更新日志v1.0.2](CHANGELOG.md)
 
 ## 文件列表
+- autoload.php 注册自动加载函数,加入项目只需此文件即可
 - src/Cache.php 缓存入口类及注册
 - src/CacheContainer.php 依赖注入容器
 - src/CacheManager.php 缓存服务管理
 - src/StoreAbstract.php 存储抽象类
 - src/FileStore 文件存储引擎
 - src/MemcacheStore memcache存储引擎
+- test/* 提供更多实例
+
+## 注册缓存
+```php
+require 'autoload.php';
+use SgIoc\Cache\Cache;
+Cache::register();
+```
 
 ## put 写入缓存,保存时间10分钟,也支持匿名写法
 ```php

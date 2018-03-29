@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
+ * 注册自动加载函数
+ * User: freelife2020@163.com
  * Date: 2018/3/27
  * Time: 9:33
  */
