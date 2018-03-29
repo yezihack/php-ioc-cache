@@ -5,7 +5,7 @@
 采用注入方法实现缓存,可以自由扩展,只需要继承StoreAbstract
 
 ## 更新日志
-[更新日志v1.0.2](CHANGELOG.md)
+[更新日志v1.0.3](CHANGELOG.md)
 
 ## 文件列表
 - autoload.php 注册自动加载函数,加入项目只需此文件即可
