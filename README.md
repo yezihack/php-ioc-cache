@@ -15,26 +15,15 @@
 - src/FileStore 文件存储引擎
 - src/MemcacheStore memcache存储引擎
 
-## 功能列表
-- [常用操作](test/exa-simple.php)
-- [写入缓存 put($key, $value, $minutes)/add($key, $value, $minutes)](test/exa-add-put.php)
-- [读取缓存 get($key)/pull($key)](test/exa-get-pull.php)
-- [判断缓存是否存在 has($key)](test/exa-has.php)
-- [永久缓存 forever($key, $value)](test/exa-forever.php)
-- [写入&读取 remember($key, $minutes, $value)](test/exa-remember.php)
-- [永久写入&读取 rememberForever($key, $value)](test/exa-rememberForever.php)
-- [递增 increment($key, $step)](test/exa-increment.php)
-- [递减 decrement($key, $step)](test/exa-decrement.php)
-- [删除缓存 forget($key)](test/exa-forget.php)
-- [清除所有缓存](test/exa-flush.php)
-- [切换引擎 store($engine)](test/exa-store.php)
-- [使用外部配置文件](test/exa-config.php)
-- [扩展缓存](test/exa-extends.php)
-- [注册独立缓存](test/exa-register.php)
-
-
-## put 写入缓存,保存时间10分钟
+## put 写入缓存,保存时间10分钟,也支持匿名写法
+```php
+#普通用法
 Cache::put('key', 'data', 10);
+#匿名写法
+Cache::put('key', function(){
+    return 'abc';
+}, 10);
+```
 
 ## get 获取缓存
 Cache::get('key');
@@ -58,7 +47,7 @@ Cache::flush()
 ## 切换不同引擎缓存操作
 Cache::store('memcache')->get('key');
 
-## 实用操作
+## 完整实例操作
 ```php
 require 'autoload.php';
 use SgIoc\Cache\Cache;
@@ -100,3 +89,20 @@ try {
 }
 ```
 
+
+## 更多实例
+- [常用操作](test/exa-simple.php)
+- [写入缓存 put($key, $value, $minutes)/add($key, $value, $minutes)](test/exa-add-put.php)
+- [读取缓存 get($key)/pull($key)](test/exa-get-pull.php)
+- [判断缓存是否存在 has($key)](test/exa-has.php)
+- [永久缓存 forever($key, $value)](test/exa-forever.php)
+- [写入&读取 remember($key, $minutes, $value)](test/exa-remember.php)
+- [永久写入&读取 rememberForever($key, $value)](test/exa-rememberForever.php)
+- [递增 increment($key, $step)](test/exa-increment.php)
+- [递减 decrement($key, $step)](test/exa-decrement.php)
+- [删除缓存 forget($key)](test/exa-forget.php)
+- [清除所有缓存](test/exa-flush.php)
+- [切换引擎 store($engine)](test/exa-store.php)
+- [使用外部配置文件](test/exa-config.php)
+- [扩展缓存](test/exa-extends.php)
+- [注册独立缓存](test/exa-register.php)
