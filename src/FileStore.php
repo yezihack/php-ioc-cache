@@ -57,12 +57,12 @@ class FileStore extends StoreAbstract
         }
         $content = file_get_contents($filename);
         if ($content !== false) {
-            $minutes = (int)substr($content, 8, 12);
+            $minutes = (int)substr($content, 0, 12);
             if ($minutes != 0 && $_SERVER['REQUEST_TIME'] > filemtime($filename) + $minutes * 60) {
                 $this->unlink($filename);
                 return $this->value($default);
             }
-            $content = substr($content, 20, -3);
+            $content = substr($content, 12);
             if ($this->config['is_zip']) {
                 $content = gzuncompress($content);
             }
@@ -115,7 +115,7 @@ class FileStore extends StoreAbstract
         if ($this->config['is_zip']) {
             $data = gzcompress($data, $this->config['zip_level']);
         }
-        $data   = "<?php\n//" . sprintf('%012d', $minutes) . $data . "\n?>";
+        $data   = sprintf('%012d', $minutes) . $data;
         $result = file_put_contents($filename, $data);
         if ($result) {
             clearstatcache();
@@ -229,7 +229,7 @@ class FileStore extends StoreAbstract
     protected function getFileName($key)
     {
         $name     = md5($this->getKey($key));
-        $filename = $this->directory . substr($name, 0, 2) . DIRECTORY_SEPARATOR . $name . '.php';
+        $filename = $this->directory . substr($name, 0, 2) . DIRECTORY_SEPARATOR . $name;
         $dir      = dirname($filename);
         if (!is_dir($dir)) {
             @mkdir($dir, 0755, true);
