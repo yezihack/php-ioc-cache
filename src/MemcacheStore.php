@@ -105,9 +105,6 @@ class MemcacheStore extends StoreAbstract
     public function put($key, $value, $minutes = null)
     {
         $minutes = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        if ($this->config['is_zip']) {
-            return $this->app->set($this->getKey($key), $this->value($value), $minutes);
-        }
         return $this->app->set($this->getKey($key), $this->value($value), $minutes);
     }
 
