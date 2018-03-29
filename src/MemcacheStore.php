@@ -135,7 +135,7 @@ class MemcacheStore extends StoreAbstract
         if ($this->has($key)) {
             $value = $this->get($key) + $value;
         }
-        return $this->put($key, $value, 0) ? $value : false;
+        return $this->put($key, $value, $this->config['expired']) ? $value : false;
     }
 
     /**
@@ -149,7 +149,7 @@ class MemcacheStore extends StoreAbstract
         if ($this->has($key)) {
             $value = $this->get($key) - $value;
         }
-        return $this->put($key, $value, 0) ? $value : false;
+        return $this->put($key, $value, $this->config['expired']) ? $value : false;
     }
 
     /**
