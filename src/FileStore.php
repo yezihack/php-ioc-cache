@@ -39,7 +39,8 @@ class FileStore extends StoreAbstract
      */
     public function info()
     {
-        return $this->config;
+        $files = glob($this->directory . '*/*');
+        return array_merge($this->config, array('files' => $files));
     }
 
     /**
