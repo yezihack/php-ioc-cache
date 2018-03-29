@@ -4,6 +4,9 @@
 
 采用注入方法实现缓存,可以自由扩展,只需要继承StoreAbstract
 
+## 更新日志
+[更新日志v1.0.1](CHANGELOG.md)
+
 ## 文件列表
 - src/Cache.php 缓存入口类及注册
 - src/CacheContainer.php 依赖注入容器
