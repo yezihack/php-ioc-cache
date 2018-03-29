@@ -2,7 +2,8 @@
 
 注入缓存 php >= 5.3.0 因为5.3支持匿名函数,项目里有使用匿名函数
 
-采用注入方法实现缓存,可以自由扩展,只需要继承StoreAbstract
+采用依赖注入方式实现缓存,易于扩展,只需要继承StoreAbstract
+
 
 ## 更新日志
 [更新日志v1.0.3](CHANGELOG.md)
@@ -121,3 +122,11 @@ try {
 - [使用外部配置文件](test/exa-config.php)
 - [扩展缓存](test/exa-extends.php)
 - [注册独立缓存](test/exa-register.php)
+
+## 知识要点
+- 依赖注入(DI) & 控制反转(IOC)
+- 延时静态绑定
+- 匿名函数应用
+- 抽象 & 继承
+- 单例实现
+- __callStatic & call_user_func_array
