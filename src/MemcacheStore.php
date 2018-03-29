@@ -36,6 +36,15 @@ class MemcacheStore extends StoreAbstract
     }
 
     /**
+     * 获取详情
+     * @return array
+     */
+    public function info()
+    {
+        return array_merge($this->config, array($this->app));
+    }
+
+    /**
      * 判断是否存在
      * @param $key
      * @return bool

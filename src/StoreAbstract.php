@@ -118,6 +118,12 @@ abstract class StoreAbstract
     abstract public function getKey($key);
 
     /**
+     * 获取详情
+     * @return mixed
+     */
+    abstract public function info();
+
+    /**
      * 判断是否是匿名函数还是普通的值
      * @param $value
      * @return mixed

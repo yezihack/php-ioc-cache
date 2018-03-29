@@ -34,6 +34,15 @@ class FileStore extends StoreAbstract
     }
 
     /**
+     * 获取详情
+     * @return array
+     */
+    public function info()
+    {
+        return $this->config;
+    }
+
+    /**
      * 判断键是否存在
      * @param $key
      * @return bool
