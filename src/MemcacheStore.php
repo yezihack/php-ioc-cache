@@ -25,7 +25,9 @@ class MemcacheStore extends StoreAbstract
         if(!isset($config['host']) || !isset($config['port'])) {
             throw new \Exception('The '.__METHOD__.' engine configure item does not have a host or port node.');
         }
-        $this->config['zip_level'] = 3;//1表示经过序列化，但未经过压缩，2表明压缩而未序列化，3表明压缩并且序列化，0表明未经过压缩和序列化
+        if(isset($config['is_zip'], $config['zip_level']) && $config['is_zip']) {
+            $this->config['zip_level'] = $config['zip_level'];//1表示经过序列化，但未经过压缩，2表明压缩而未序列化，3表明压缩并且序列化，0表明未经过压缩和序列化
+        }
         if (!extension_loaded('memcache')) {
             throw new \Exception('Memcache extension is not installed.');
         }
