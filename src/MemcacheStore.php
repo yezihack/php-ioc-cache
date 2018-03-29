@@ -22,10 +22,10 @@ class MemcacheStore extends StoreAbstract
         if (!is_null($config)) {
             $this->config = array_merge($this->config, $config);
         }
-        if(!isset($config['host']) || !isset($config['port'])) {
-            throw new \Exception('The '.__METHOD__.' engine configure item does not have a host or port node.');
+        if (!isset($config['host']) || !isset($config['port'])) {
+            throw new \Exception('The ' . __METHOD__ . ' engine configure item does not have a host or port node.');
         }
-        if(isset($config['is_zip'], $config['zip_level']) && $config['is_zip']) {
+        if (isset($config['is_zip'], $config['zip_level']) && $config['is_zip']) {
             $this->config['zip_level'] = $config['zip_level'];//1表示经过序列化，但未经过压缩，2表明压缩而未序列化，3表明压缩并且序列化，0表明未经过压缩和序列化
         }
         if (!extension_loaded('memcache')) {
@@ -41,7 +41,7 @@ class MemcacheStore extends StoreAbstract
      */
     public function info()
     {
-        return array_merge($this->config, array($this->app));
+        return array_merge($this->config, array('link' => $this->app));
     }
 
     /**
@@ -88,12 +88,13 @@ class MemcacheStore extends StoreAbstract
      * @param $minutes
      * @return bool
      */
-    public function add($key, $value, $minutes)
+    public function add($key, $value, $minutes = null)
     {
+        $minutes = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
         if ($this->config['is_zip']) {
-            return $this->app->add($this->getKey($key), $this->value($value), $minutes * 60, $this->config['zip_level']);
+            return $this->app->add($this->getKey($key), $this->value($value), $minutes, $this->config['zip_level']);
         }
-        return $this->app->add($this->getKey($key), $this->value($value), $minutes * 60);
+        return $this->app->add($this->getKey($key), $this->value($value), $minutes);
     }
 
     /**
@@ -103,12 +104,13 @@ class MemcacheStore extends StoreAbstract
      * @param $minutes
      * @return bool
      */
-    public function put($key, $value, $minutes)
+    public function put($key, $value, $minutes = null)
     {
+        $minutes = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
         if ($this->config['is_zip']) {
-            return $this->app->set($this->getKey($key), $this->value($value), $minutes * 60, $this->config['zip_level']);
+            return $this->app->set($this->getKey($key), $this->value($value), $minutes, $this->config['zip_level']);
         }
-        return $this->app->set($this->getKey($key), $this->value($value), $minutes * 60);
+        return $this->app->set($this->getKey($key), $this->value($value), $minutes);
     }
 
     /**
@@ -176,28 +178,28 @@ class MemcacheStore extends StoreAbstract
      * 存在则返回缓存,不存在则创建缓存并返回结果,支持匿名函数
      * @param $key
      * @param $minutes
-     * @param \Closure $callback
+     * @param mixed $callback
      * @return array|bool|mixed|string
      */
-    public function remember($key, $minutes, \Closure $callback)
+    public function remember($key, $minutes, $callback)
     {
         $value = $this->get($key);
         if (!is_null($value)) {
             return $value;
         }
-        $this->put($key, $value = $callback(), $minutes);
+        $this->put($key, $value = $this->value($callback), $minutes);
         return $value;
     }
 
     /**
      * 永久缓存,支持匿名函数
      * @param $key
-     * @param \Closure $callback
+     * @param mixed $callback
      * @return array|bool|mixed|string
      */
-    public function rememberForever($key, \Closure $callback)
+    public function rememberForever($key, $callback)
     {
-        return $this->remember($key, 0, $callback);
+        return $this->remember($key, 0, $this->value($callback));
     }
 
     /**

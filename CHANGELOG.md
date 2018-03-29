@@ -5,6 +5,7 @@ CHANGELOG
 ------------------
 - FileStore引擎存储文件改成无后缀的文本类型,不再以php做后缀了
 - 在StoreAbstract方法定义一个info抽象方法,用法获取引擎详情
+- StoreAbstract里的remember,rememberForever传入的数据不强制是匿名,修改成兼容普通数据
 
 2018-03-29 v1.0.2
 ------------------

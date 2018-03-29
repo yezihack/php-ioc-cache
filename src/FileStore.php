@@ -201,26 +201,26 @@ class FileStore extends StoreAbstract
      * 如果缓存存在则返回已有的,不存在进行缓存,返回数据
      * @param $key string 键值
      * @param $minutes int 分钟
-     * @param \Closure $callback 匿名函数
+     * @param mixed $callback 匿名函数
      * @return bool|mixed
      */
-    public function remember($key, $minutes, \Closure $callback)
+    public function remember($key, $minutes, $callback)
     {
         $value = $this->get($key);
         if (!is_null($value)) {
             return $value;
         }
-        $this->put($key, $value = $callback(), $minutes);
+        $this->put($key, $value = $this->value($callback), $minutes);
         return $value;
     }
 
     /**
      * 永久缓存
      * @param $key
-     * @param \Closure $callback
+     * @param mixed $callback
      * @return bool|mixed
      */
-    public function rememberForever($key, \Closure $callback)
+    public function rememberForever($key, $callback)
     {
         return $this->remember($key, 0, $callback);
     }

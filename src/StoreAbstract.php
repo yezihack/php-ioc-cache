@@ -97,18 +97,18 @@ abstract class StoreAbstract
      * 如果缓存项不存在，传递给 remember 方法的闭包被执行并且将结果存放到缓存中
      * @param $key
      * @param $minutes
-     * @param \Closure $callback
+     * @param mixed $callback
      * @return mixed
      */
-    abstract public function remember($key, $minutes, \Closure $callback);
+    abstract public function remember($key, $minutes, $callback);
 
     /**
      * 永久缓存,如果缓存项不存在，传递给 remember 方法的闭包被执行并且将结果存放到缓存中
      * @param $key
-     * @param \Closure $callback
+     * @param mixed $callback
      * @return mixed
      */
-    abstract public function rememberForever($key, \Closure $callback);
+    abstract public function rememberForever($key, $callback);
 
     /**
      * 获取带前缀的键
