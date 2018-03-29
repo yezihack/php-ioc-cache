@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+
+2018-03-29 v1.0.4
+------------------
+- 添加一个MCache文件,对memcache快捷操作
+- MCache::put('key', 'abc');//相当于Cache::store('memcache')->put();
+- MCache::get('key');//相当于Cache::store('memcache')->get();
+
 2018-03-29 v1.0.3
 ------------------
 - FileStore引擎存储文件改成无后缀的文本类型,不再以php做后缀了

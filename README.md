@@ -10,6 +10,7 @@
 ## 文件列表
 - autoload.php 注册自动加载函数,加入项目只需此文件即可
 - src/Cache.php 缓存入口类及注册
+- src/MCache.php 快捷操作memcache类
 - src/CacheContainer.php 依赖注入容器
 - src/CacheManager.php 缓存服务管理
 - src/StoreAbstract.php 存储抽象类
@@ -54,7 +55,11 @@ Cache::forget('key')
 Cache::flush()
 
 ## 切换不同引擎缓存操作
-Cache::store('memcache')->get('key');
+- Cache::store('memcache')->get('key');
+- 系统提供一种快捷操作:
+- MCache::get('key') 相当于上面的代码
+
+
 
 ## 完整实例操作
 ```php
@@ -112,6 +117,7 @@ try {
 - [删除缓存 forget($key)](test/exa-forget.php)
 - [清除所有缓存](test/exa-flush.php)
 - [切换引擎 store($engine)](test/exa-store.php)
+- [MCache MCache::get](test/exa-mcache.php)
 - [使用外部配置文件](test/exa-config.php)
 - [扩展缓存](test/exa-extends.php)
 - [注册独立缓存](test/exa-register.php)
