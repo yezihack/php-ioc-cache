@@ -31,9 +31,6 @@ class MemcacheStore extends StoreAbstract
         }
         $this->app = new \Memcache();
         $this->app->addServer($config['host'], $config['port']);
-        if (isset($config['is_zip'], $config['zip_level']) && $config['is_zip']) {
-            $this->config['zip_level'] = $config['zip_level'];//1表示经过序列化，但未经过压缩，2表明压缩而未序列化，3表明压缩并且序列化，0表明未经过压缩和序列化
-        }
     }
 
     /**
@@ -42,7 +39,11 @@ class MemcacheStore extends StoreAbstract
      */
     public function info()
     {
-        return array('link' => $this->app, 'config' => $this->config, 'stats' => $this->app->getStats());
+        return array(
+            'link'       => $this->app,
+            'config'     => $this->config,
+            'stats'      => $this->app->getStats(),
+        );
     }
 
     /**
@@ -91,8 +92,8 @@ class MemcacheStore extends StoreAbstract
      */
     public function add($key, $value, $minutes = null)
     {
-        $minutes = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        return $this->app->add($this->getKey($key), $this->value($value), $minutes);
+        $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
+        return $this->app->add($this->getKey($key), $this->value($value), $second);
     }
 
     /**
@@ -104,8 +105,8 @@ class MemcacheStore extends StoreAbstract
      */
     public function put($key, $value, $minutes = null)
     {
-        $minutes = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        return $this->app->set($this->getKey($key), $this->value($value), $minutes);
+        $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
+        return $this->app->set($this->getKey($key), $this->value($value), $second);
     }
 
     /**
