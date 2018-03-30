@@ -19,8 +19,9 @@ $config = array(
         'zip_level' => 6,//压缩等级0~10
     ),
     'memcache' => array(//memcache存储引擎
-        'host' => '127.0.0.1',//memcache地址
-        'port' => 11211,//memcache端口
+        'hosts' => array( //支持多台服务器,分布式部署,一个数组代表一个服务器,主机,端口,权重
+            array('127.0.0.1', 11211, 33),
+        ),//memcached地址
     ),
 );
 
