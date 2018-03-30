@@ -59,7 +59,7 @@ class Cache extends CacheManager
         }
         $config = $config[$engine];
         CacheContainer::bind('memcache', function () use ($config) {
-            return new MemcacheStore($config);
+            return new MemcachedStore($config);
         });
     }
 }

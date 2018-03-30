@@ -3,13 +3,13 @@
 namespace SgIoc\Cache;
 
 /**
- * memcache存储引擎
+ * memcached存储引擎
  * User: freelife2020@163.com
  * Date: 2018/3/16
  * Time: 14:17
  */
 
-class MemcacheStore extends StoreAbstract
+class MemcachedStore extends StoreAbstract
 {
     /**
      * 初使化
@@ -22,15 +22,21 @@ class MemcacheStore extends StoreAbstract
         if (!is_null($config)) {
             $this->config = array_merge($this->config, $config);
         }
-        if (!isset($config['host']) || !isset($config['port'])) {
-            throw new \Exception('The ' . __METHOD__ . ' engine configure item does not have a host or port node.');
+        if (!isset($config['hosts'])) {
+            throw new \Exception('The ' . __METHOD__ . ' engine configure item does not have a hosts or port node.');
         }
 
-        if (!extension_loaded('memcache')) {
-            throw new \Exception('Memcache extension is not installed.');
+        if (!extension_loaded('memcached')) {
+            throw new \Exception('Memcached extension is not installed.');
         }
-        $this->app = new \Memcache();
-        $this->app->addServer($config['host'], $config['port']);
+        $this->app = new \Memcached();
+        $this->app->addServers($config['hosts']);
+        if (isset($config['preFix'])) {
+            $this->app->setOption(\Memcached::OPT_PREFIX_KEY, $config['preFix']);
+        }
+        if (isset($config['timeout'])) {
+            $this->app->setOption(\Memcached::OPT_CONNECT_TIMEOUT, $config['timeout']);
+        }
     }
 
     /**
@@ -40,9 +46,10 @@ class MemcacheStore extends StoreAbstract
     public function info()
     {
         return array(
-            'link'       => $this->app,
-            'config'     => $this->config,
-            'stats'      => $this->app->getStats(),
+            'link'        => $this->app,
+            'config'      => $this->config,
+            'stats'       => $this->app->getStats(),
+            'server_list' => $this->app->getServerList(),
         );
     }
 
@@ -54,6 +61,18 @@ class MemcacheStore extends StoreAbstract
     public function has($key)
     {
         return $this->get($key) ? true : false;
+    }
+
+    /**
+     * 获取&删除
+     * @param $key
+     * @return array|bool|string
+     */
+    public function pull($key)
+    {
+        $value = $this->get($key);
+        $this->forget($key);
+        return $value;
     }
 
     /**
@@ -69,18 +88,6 @@ class MemcacheStore extends StoreAbstract
             return $value;
         }
         return $this->value($default);
-    }
-
-    /**
-     * 获取&删除
-     * @param $key
-     * @return array|bool|string
-     */
-    public function pull($key)
-    {
-        $value = $this->get($key);
-        $this->forget($key);
-        return $value;
     }
 
     /**

@@ -75,7 +75,7 @@ class FileStore extends StoreAbstract
             if ($this->config['is_zip']) {
                 $content = gzuncompress($content);
             }
-            return unserialize($content);
+            return $this->unserialize($content);
         }
         return $this->value($default);
     }
@@ -120,7 +120,7 @@ class FileStore extends StoreAbstract
             $minutes = $this->config['expired'];
         }
         $filename = $this->getFileName($key);
-        $data     = serialize($this->value($value));
+        $data     = $this->serialize($value);
         if ($this->config['is_zip']) {
             $data = gzcompress($data, $this->config['zip_level']);
         }

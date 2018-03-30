@@ -4,6 +4,14 @@
 
 采用依赖注入方式实现缓存,易于扩展,只需要继承StoreAbstract
 
+使用igbinary进行高效序列化,gzcompress,zip压缩
+
+## 条件
+- 必须安装memcached服务[http://memcached.org/](http://memcached.org/)
+- 安装php pecl memcached[http://pecl.php.net/package/memcached](http://pecl.php.net/package/memcached),而非memcache扩展
+- 安装igbinary可提高memcached性能,libmemcached
+
+
 
 ## 更新日志
 [更新日志v1.0.3](CHANGELOG.md)
@@ -16,8 +24,9 @@
 - src/CacheManager.php 缓存服务管理
 - src/StoreAbstract.php 存储抽象类
 - src/FileStore 文件存储引擎
-- src/MemcacheStore memcache存储引擎
+- src/MemcachedStore memcached存储引擎
 - test/* 提供更多实例
+- test/config.php 标准配置文件
 
 ## 注册缓存
 ```php

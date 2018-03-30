@@ -133,4 +133,29 @@ abstract class StoreAbstract
         return $value instanceof \Closure ? $value() : $value;
     }
 
+    /**
+     * igbinary serialize 序列化
+     * @param $value mixed 支持匿名函数
+     * @return string
+     */
+    public function serialize($value)
+    {
+        if (extension_loaded('igbinary')) {
+            return igbinary_serialize($this->value($value));
+        }
+        return $this->serialize($this->value($value));
+    }
+
+    /**
+     * igbinary unserialize 解序列化
+     * @param string $value 字符串
+     * @return mixed
+     */
+    public function unserialize($value)
+    {
+        if (extension_loaded('igbinary')) {
+            return igbinary_unserialize($value);
+        }
+        return $this->unserialize($value);
+    }
 }
