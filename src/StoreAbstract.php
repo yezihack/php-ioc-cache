@@ -143,7 +143,7 @@ abstract class StoreAbstract
         if (extension_loaded('igbinary')) {
             return igbinary_serialize($this->value($value));
         }
-        return $this->serialize($this->value($value));
+        return serialize($this->value($value));
     }
 
     /**
@@ -156,6 +156,6 @@ abstract class StoreAbstract
         if (extension_loaded('igbinary')) {
             return igbinary_unserialize($value);
         }
-        return $this->unserialize($value);
+        return unserialize($value);
     }
 }
