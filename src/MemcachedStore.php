@@ -37,6 +37,9 @@ class MemcachedStore extends StoreAbstract
         if (isset($config['timeout'])) {
             $this->app->setOption(\Memcached::OPT_CONNECT_TIMEOUT, $config['timeout']);
         }
+        if(isset($config['is_zip'])) {
+            $this->app->setOption(\Memcached::OPT_COMPRESSION, $config['is_zip']);
+        }
     }
 
     /**

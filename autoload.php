@@ -1,4 +1,5 @@
 <?php
+header('Content-type:text/html;charset=utf-8');
 /**
  * 注册自动加载函数
  * User: freelife2020@163.com

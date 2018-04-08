@@ -58,7 +58,7 @@ class Cache extends CacheManager
             throw new \Exception('The configuration item does not have a ' . $engine . ' node.');
         }
         $config = $config[$engine];
-        CacheContainer::bind('memcache', function () use ($config) {
+        CacheContainer::bind($engine, function () use ($config) {
             return new MemcachedStore($config);
         });
     }
