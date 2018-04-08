@@ -17,7 +17,7 @@ class MemcachedConnector
      */
     public static function getInstance($config)
     {
-        if (!self::$link instanceof self) {
+        if (!self::$link instanceof \Memcached) {
             self::$link = self::connect($config);
         }
         return self::$link;
