@@ -13,32 +13,16 @@ class MemcachedStore extends StoreAbstract
 {
     /**
      * 初使化
-     * MemcacheStore constructor.
-     * @param null $config
+     * MemcachedStore constructor.
+     * @param $memcache
+     * @param array $config
      * @throws \Exception
      */
-    public function __construct($config = null)
+    public function __construct(MemcachedConnector $memcache, $config = null)
     {
+        $this->app              = $memcache;
         if (!is_null($config)) {
             $this->config = array_merge($this->config, $config);
-        }
-        if (!isset($config['hosts'])) {
-            throw new \Exception('The ' . __METHOD__ . ' engine configure item does not have a hosts or port node.');
-        }
-
-        if (!extension_loaded('memcached')) {
-            throw new \Exception('Memcached extension is not installed.');
-        }
-        $this->app = new \Memcached();
-        $this->app->addServers($config['hosts']);
-        if (isset($config['preFix'])) {
-            $this->app->setOption(\Memcached::OPT_PREFIX_KEY, $config['preFix']);
-        }
-        if (isset($config['timeout'])) {
-            $this->app->setOption(\Memcached::OPT_CONNECT_TIMEOUT, $config['timeout']);
-        }
-        if(isset($config['is_zip'])) {
-            $this->app->setOption(\Memcached::OPT_COMPRESSION, $config['is_zip']);
         }
     }
 
@@ -118,16 +102,17 @@ class MemcachedStore extends StoreAbstract
         $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
         return $this->app->set($this->getKey($key), $this->value($value), $second);
     }
+
     /**
      * 存储多个元素设置,存在则覆盖,不存在则创建,支持匿名函数
      * @param $keyVal
      * @param $minutes
      * @return bool
      */
-    public function putMulti($keyVal , $minutes = null)
+    public function putMulti($keyVal, $minutes = null)
     {
         $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        if(!is_array($keyVal)) {
+        if (!is_array($keyVal)) {
             return false;
         }
         foreach ($keyVal as $key => $val) {
@@ -135,6 +120,7 @@ class MemcachedStore extends StoreAbstract
         }
         return $this->app->setMulti($keyVal, $second);
     }
+
     /**
      * 永久存储
      * @param $key
