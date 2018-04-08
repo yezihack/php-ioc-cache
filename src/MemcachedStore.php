@@ -20,7 +20,7 @@ class MemcachedStore extends StoreAbstract
      */
     public function __construct(MemcachedConnector $memcache, $config = null)
     {
-        $this->app              = $memcache;
+        $this->app = $memcache;
         if (!is_null($config)) {
             $this->config = array_merge($this->config, $config);
         }
@@ -87,11 +87,11 @@ class MemcachedStore extends StoreAbstract
     public function add($key, $value, $minutes = null)
     {
         $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        return $this->app->add($this->getKey($key), $this->value($value), $second);
+        return $this->app->add($this->getKey($key), $this->value($value), $minutes > 0 ? time() + $second : $minutes);
     }
 
     /**
-     * 设置,存在则覆盖,不存在则创建,支持匿名函数
+     * 设置和多个设置,存在则覆盖,不存在则创建,支持匿名函数
      * @param $key
      * @param $value
      * @param $minutes
@@ -99,8 +99,11 @@ class MemcachedStore extends StoreAbstract
      */
     public function put($key, $value = null, $minutes = null)
     {
+        if (is_array($key)) {
+            return $this->putMulti($key, $value);
+        }
         $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        return $this->app->set($this->getKey($key), $this->value($value), $second);
+        return $this->app->set($this->getKey($key), $this->value($value), $minutes > 0 ? time() + $second : $minutes);
     }
 
     /**
@@ -118,7 +121,7 @@ class MemcachedStore extends StoreAbstract
         foreach ($keyVal as $key => $val) {
             $keyVal[$this->getKey($key)] = $this->value($val);
         }
-        return $this->app->setMulti($keyVal, $second);
+        return $this->app->setMulti($keyVal, $minutes > 0 ? time() + $second : $minutes);
     }
 
     /**
