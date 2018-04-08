@@ -41,6 +41,15 @@ class MemcachedStore extends StoreAbstract
     }
 
     /**
+     * 获取实例
+     * @return MemcachedConnector
+     */
+    public function getInstance()
+    {
+        return $this->app;
+    }
+
+    /**
      * 判断是否存在
      * @param $key
      * @return bool

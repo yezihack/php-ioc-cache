@@ -1,4 +1,5 @@
 <?php
+
 namespace SgIoc\Cache;
 /**
  * 缓存服务管理
@@ -14,6 +15,16 @@ class CacheManager
     {
         $app = static::resolveFacadeInstance();
         return call_user_func_array(array($app, $name), $args);
+    }
+
+    /**
+     * 获取实例
+     * @return mixed
+     */
+    public static function link()
+    {
+        $link = self::store(static::$default_store);
+        return $link->getInstance();
     }
 
     /**
