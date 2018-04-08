@@ -113,12 +113,28 @@ class MemcachedStore extends StoreAbstract
      * @param $minutes
      * @return bool
      */
-    public function put($key, $value, $minutes = null)
+    public function put($key, $value = null, $minutes = null)
     {
         $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
         return $this->app->set($this->getKey($key), $this->value($value), $second);
     }
-
+    /**
+     * 存储多个元素设置,存在则覆盖,不存在则创建,支持匿名函数
+     * @param $keyVal
+     * @param $minutes
+     * @return bool
+     */
+    public function putMulti($keyVal , $minutes = null)
+    {
+        $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
+        if(!is_array($keyVal)) {
+            return false;
+        }
+        foreach ($keyVal as $key => $val) {
+            $keyVal[$this->getKey($key)] = $this->value($val);
+        }
+        return $this->app->setMulti($keyVal, $second);
+    }
     /**
      * 永久存储
      * @param $key
