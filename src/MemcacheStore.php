@@ -80,7 +80,8 @@ class MemcacheStore extends StoreAbstract
      */
     public function get($key, $default = false)
     {
-        $value = $this->app->get($this->getKey($key));
+        $key = $this->getKey($key);
+        $value = $this->app->get($key);
         if ($value !== false) {
             return $value;
         }
@@ -96,6 +97,7 @@ class MemcacheStore extends StoreAbstract
      */
     public function add($key, $value, $minutes = null)
     {
+        $key = $this->getKey($key);
         $second  = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
         $expired = $minutes > 0 ? time() + $second : 0;
         $isZip   = $this->config['is_zip'] == 1 ? MEMCACHE_COMPRESSED : 0;
@@ -103,7 +105,7 @@ class MemcacheStore extends StoreAbstract
         if (!is_string($value) || !is_numeric($value)) {
             $value = $this->serialize($value);
         }
-        return $this->app->add($this->getKey($key), $value, $isZip, $expired);
+        return $this->app->add($key, $value, $isZip, $expired);
     }
 
     /**
@@ -123,7 +125,7 @@ class MemcacheStore extends StoreAbstract
         if (!is_string($value) || !is_numeric($value)) {
             $value = $this->serialize($value);
         }
-        return $this->app->set($this->getKey($key), $value, $isZip, $expired);
+        return $this->app->set($key, $value, $isZip, $expired);
     }
 
     /**
