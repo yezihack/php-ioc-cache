@@ -230,6 +230,11 @@ class FileStore extends StoreAbstract
         return $this->config['preFix'] . $key;
     }
 
+    public function close()
+    {
+     
+    }
+
     /**
      * 获取存储文件名,全路径
      * @param $key

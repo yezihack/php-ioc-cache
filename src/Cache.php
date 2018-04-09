@@ -27,6 +27,7 @@ class Cache extends CacheManager
         }
         self::registerFile($config);
         self::registerMemcache($config);
+        self::registerMemcached($config);
     }
 
     /**
@@ -58,9 +59,25 @@ class Cache extends CacheManager
             throw new \Exception('The configuration item does not have a ' . $engine . ' node.');
         }
         $config = $config[$engine];
-        $link   = MemcachedConnector::getInstance($config);
-        CacheContainer::bind($engine, function () use ($link, $config) {
-            return new MemcachedStore($link, $config);
+        CacheContainer::bind($engine, function () use ($config) {
+            return new MemcachedStore(MemcacheConnector::getInstance($config), $config);
+        });
+    }
+
+    /**
+     * 注册memcached
+     * @param $config
+     * @throws \Exception
+     */
+    public static function registerMemcached($config)
+    {
+        $engine = 'memcached';
+        if (!isset($config[$engine])) {
+            throw new \Exception('The configuration item does not have a ' . $engine . ' node.');
+        }
+        $config = $config[$engine];
+        CacheContainer::bind($engine, function () use ($config) {
+            return new MemcachedStore(MemcachedConnector::getInstance($config), $config);
         });
     }
 }

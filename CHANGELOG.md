@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+2018-04-09 v1.0.6
+------------------
+- 新增memcache方法
+- 配置节点file,memcache,memcached
+- 加入Connector单例模式,提高性能
+
 2018-03-30 v1.0.5
 ------------------
 - FileStore支持igbinay序列化,提高性能
@@ -25,7 +31,7 @@ CHANGELOG
 
 2018-03-29 v1.0.1
 ------------------
-memcache配置config.php项目添加is_zip,zip_level选项
+memcached配置config.php项目添加is_zip,zip_level选项
 
 2018-03-27 v1.0.0
 ------------------

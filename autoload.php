@@ -6,13 +6,16 @@ header('Content-type:text/html;charset=utf-8');
  * Date: 2018/3/27
  * Time: 9:33
  */
+if (PHP_VERSION_ID <= 503000) {
+    throw new Exception('The PHP version must be greater than or equal to 5.3.0');
+}
 spl_autoload_register(function ($className) {
     $namespace = 'SgIoc\\Cache';
     if (strpos($className, $namespace) === 0) {
         $fileName = str_replace($namespace, '', $className);
         $fileName = str_replace('\\', '/', __DIR__ . '/src' . $fileName . '.php');
         if (is_file($fileName)) {
-            require($fileName);
+            require_once($fileName);
         }
     }
 });

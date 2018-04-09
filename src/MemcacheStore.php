@@ -3,13 +3,13 @@
 namespace SgIoc\Cache;
 
 /**
- * memcached存储引擎
+ * memcache存储引擎
  * User: freelife2020@163.com
  * Date: 2018/3/16
  * Time: 14:17
  */
 
-class MemcachedStore extends StoreAbstract
+class MemcacheStore extends StoreAbstract
 {
     /**
      * 初使化
@@ -18,7 +18,7 @@ class MemcachedStore extends StoreAbstract
      * @param array $config
      * @throws \Exception
      */
-    public function __construct(MemcachedConnector $memcache, $config = null)
+    public function __construct(MemcacheConnector $memcache, $config = null)
     {
         $this->app = $memcache;
         if (!is_null($config)) {
@@ -33,16 +33,18 @@ class MemcachedStore extends StoreAbstract
     public function info()
     {
         return array(
-            'link'        => $this->app,
-            'config'      => $this->config,
-            'stats'       => $this->app->getStats(),
-            'server_list' => $this->app->getServerList(),
+            'link'     => $this->app,
+            'config'   => $this->config,
+            'stats'    => $this->app->getStats(),
+            'stat_all' => $this->app->getExtendedStats(),
+            'isOnline' => $this->app->getServerStatus(),
+            'version'  => $this->app->getVersion(),
         );
     }
 
     /**
      * 获取实例
-     * @return MemcachedConnector
+     * @return MemcacheConnector
      */
     public function getInstance()
     {
@@ -95,8 +97,14 @@ class MemcachedStore extends StoreAbstract
      */
     public function add($key, $value, $minutes = null)
     {
-        $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        return $this->app->add($this->getKey($key), $this->value($value), $minutes > 0 ? time() + $second : $minutes);
+        $second  = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
+        $expired = $minutes > 0 ? time() + $second : 0;
+        $isZip   = $this->config['is_zip'] == 1 ? MEMCACHE_COMPRESSED : 0;
+        $value   = $this->value($value);
+        if (!is_string($value) || !is_numeric($value)) {
+            $value = $this->serialize($value);
+        }
+        return $this->app->add($this->getKey($key), $value, $isZip, $expired);
     }
 
     /**
@@ -106,31 +114,17 @@ class MemcachedStore extends StoreAbstract
      * @param $minutes
      * @return bool
      */
-    public function put($key, $value = null, $minutes = null)
+    public function put($key, $value, $minutes = null)
     {
-        if (is_array($key)) {
-            return $this->putMulti($key, $value);
+        $key     = $this->getKey($key);
+        $second  = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
+        $expired = $minutes > 0 ? time() + $second : 0;
+        $isZip   = $this->config['is_zip'] == 1 ? MEMCACHE_COMPRESSED : 0;
+        $value   = $this->value($value);
+        if (!is_string($value) || !is_numeric($value)) {
+            $value = $this->serialize($value);
         }
-        $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        return $this->app->set($this->getKey($key), $this->value($value), $minutes > 0 ? time() + $second : $minutes);
-    }
-
-    /**
-     * 存储多个元素设置,存在则覆盖,不存在则创建,支持匿名函数
-     * @param $keyVal
-     * @param $minutes
-     * @return bool
-     */
-    public function putMulti($keyVal, $minutes = null)
-    {
-        $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        if (!is_array($keyVal)) {
-            return false;
-        }
-        foreach ($keyVal as $key => $val) {
-            $keyVal[$this->getKey($key)] = $this->value($val);
-        }
-        return $this->app->setMulti($keyVal, $minutes > 0 ? time() + $second : $minutes);
+        return $this->app->set($this->getKey($key), $value, $isZip, $expired);
     }
 
     /**
@@ -152,10 +146,8 @@ class MemcachedStore extends StoreAbstract
      */
     public function increment($key, $value = 1)
     {
-        if ($this->has($key)) {
-            $value = $this->get($key) + $value;
-        }
-        return $this->put($key, $value, $this->config['expired']) ? $value : false;
+        $key = $this->getKey($key);
+        return $this->app->increment($key, $value);
     }
 
     /**
@@ -166,10 +158,8 @@ class MemcachedStore extends StoreAbstract
      */
     public function decrement($key, $value = 1)
     {
-        if ($this->has($key)) {
-            $value = $this->get($key) - $value;
-        }
-        return $this->put($key, $value, $this->config['expired']) ? $value : false;
+        $key = $this->getKey($key);
+        return $this->app->decrement($key, $value);
     }
 
     /**
@@ -179,6 +169,7 @@ class MemcachedStore extends StoreAbstract
      */
     public function forget($key)
     {
+        $key = $this->getKey($key);
         if ($this->has($key)) {
             return $this->app->delete($key);
         }
@@ -231,13 +222,9 @@ class MemcachedStore extends StoreAbstract
     {
         return $this->config['preFix'] . $key;
     }
-
-    /**
-     * 关闭
-     * @return mixed
-     */
     public function close()
     {
         return $this->app->close();
     }
+
 }

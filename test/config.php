@@ -24,4 +24,14 @@ return array(
         'timeout' => 3,//超时设置
         'is_zip'  => 0,//是否开启压缩
     ),
+    'memcached' => array(//memcached存储引擎
+        'preFix'  => '',//前缀
+        'hosts'   => array( //支持多台服务器,分布式部署,一个数组代表一个服务器,主机,端口,权重
+            array('127.0.0.1', 11211, 33),
+            array('127.0.0.2', 11211, 33),
+            array('127.0.0.3', 11211, 33),
+        ),//memcached地址
+        'timeout' => 3,//超时设置
+        'is_zip'  => 0,//是否开启压缩
+    ),
 );
