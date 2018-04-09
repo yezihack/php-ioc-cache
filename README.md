@@ -31,6 +31,7 @@
 - src/MemcacheGc memcache垃圾回收机制
 - test/* 提供更多实例
 - test/config.php 标准配置文件
+- test/memcache-tools.php 提供memcache图形管理
 
 ## 注册缓存
 ```php
@@ -140,6 +141,7 @@ try {
 - [扩展缓存](test/exa-extends.php)
 - [注册独立缓存](test/exa-register.php)
 - [垃圾回收](test/exa-gc.php)
+- [memcache图形管理](test/memcache-tools.php)
 
 ## 知识要点
 - 依赖注入(DI) & 控制反转(IOC)

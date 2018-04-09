@@ -7,6 +7,7 @@ CHANGELOG
 - 配置节点file,memcache,memcached
 - 加入Connector单例模式,提高性能
 - 加入垃圾回收机制(需主动调用)
+- 新增memcache图形管理
 
 2018-03-30 v1.0.5
 ------------------
