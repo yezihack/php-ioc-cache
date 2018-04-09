@@ -60,7 +60,7 @@ class Cache extends CacheManager
         }
         $config = $config[$engine];
         CacheContainer::bind($engine, function () use ($config) {
-            return new MemcachedStore(MemcacheConnector::getInstance($config), $config);
+            return new MemcacheStore(MemcacheConnector::getInstance($config), $config);
         });
     }
 
