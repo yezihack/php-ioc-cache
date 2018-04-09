@@ -99,7 +99,7 @@ class MemcacheStore extends StoreAbstract
     {
         $key = $this->getKey($key);
         $second  = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        $expired = $minutes > 0 ? time() + $second : 0;
+        $expired = $second > 0 ? time() + $second : 0;
         $isZip   = $this->config['is_zip'] == 1 ? MEMCACHE_COMPRESSED : 0;
         $value   = $this->value($value);
         return $this->app->add($key, $value, $isZip, $expired);
@@ -116,7 +116,7 @@ class MemcacheStore extends StoreAbstract
     {
         $key     = $this->getKey($key);
         $second  = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        $expired = $minutes > 0 ? time() + $second : 0;
+        $expired = $second > 0 ? time() + $second : 0;
         $isZip   = $this->config['is_zip'] == 1 ? MEMCACHE_COMPRESSED : 0;
         $value   = $this->value($value);
         return $this->app->set($key, $value, $isZip, $expired);

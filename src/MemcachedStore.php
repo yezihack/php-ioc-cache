@@ -96,7 +96,7 @@ class MemcachedStore extends StoreAbstract
     public function add($key, $value, $minutes = null)
     {
         $second  = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        $expired = $minutes > 0 ? time() + $second : 0;
+        $expired = $second > 0 ? time() + $second : 0;
         return $this->app->add($key, $this->value($value), $expired);
     }
 
@@ -113,7 +113,7 @@ class MemcachedStore extends StoreAbstract
             return $this->putMulti($key, $value);
         }
         $second  = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        $expired = $minutes > 0 ? time() + $second : 0;
+        $expired = $second > 0 ? time() + $second : 0;
         return $this->app->set($key, $this->value($value), $expired);
     }
 
@@ -126,7 +126,7 @@ class MemcachedStore extends StoreAbstract
     public function putMulti($keyVal, $minutes = null)
     {
         $second  = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        $expired = $minutes > 0 ? time() + $second : 0;
+        $expired = $second > 0 ? time() + $second : 0;
         if (!is_array($keyVal)) {
             return false;
         }
