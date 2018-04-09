@@ -24,7 +24,11 @@
 - src/CacheManager.php 缓存服务管理
 - src/StoreAbstract.php 存储抽象类
 - src/FileStore 文件存储引擎
+- src/MemcacheConnector memcache实例单例对象
+- src/MemcacheStore memcache存储引擎
+- src/MemcachedConnector memcached实例单例对象
 - src/MemcachedStore memcached存储引擎
+- src/MemcacheGc memcache垃圾回收机制
 - test/* 提供更多实例
 - test/config.php 标准配置文件
 
@@ -135,6 +139,7 @@ try {
 - [使用外部配置文件](test/exa-config.php)
 - [扩展缓存](test/exa-extends.php)
 - [注册独立缓存](test/exa-register.php)
+- [垃圾回收](test/exa-gc.php)
 
 ## 知识要点
 - 依赖注入(DI) & 控制反转(IOC)

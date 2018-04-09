@@ -36,7 +36,7 @@ class MemcacheGc extends \Memcache
     {
         $t    = time();
         $func = function ($key, $info) use ($t) {
-            echo $key, ' => Exp:', $info[1] - $t, '<br/>'; //查看缓存对象的剩余过期时间
+            echo $key, ' => Exp:', $info[1] - $t, 's<br/>'; //查看缓存对象的剩余过期时间
         };
         $this->lists($func);
     }
