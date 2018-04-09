@@ -235,6 +235,6 @@ class MemcachedStore extends StoreAbstract
      */
     public function close()
     {
-        return $this->app->close();
+        return $this->app->quit();
     }
 }
