@@ -6,6 +6,8 @@
 
 使用igbinary进行高效序列化,gzcompress,zip压缩
 
+提供memcache图形管理
+
 ## 条件
 - 必须安装memcached服务[http://memcached.org/](http://memcached.org/)
 - 安装php pecl memcached[http://pecl.php.net/package/memcached](http://pecl.php.net/package/memcached),而非memcache扩展
@@ -14,7 +16,7 @@
 
 
 ## 更新日志
-[更新日志v1.0.3](CHANGELOG.md)
+[更新日志v1.0.6](CHANGELOG.md)
 
 ## 文件列表
 - autoload.php 注册自动加载函数,加入项目只需此文件即可
@@ -150,3 +152,6 @@ try {
 - 抽象 & 继承
 - 单例实现
 - __callStatic & call_user_func_array
+
+## 图形管理
+![](asset/memcache-tools.png)
