@@ -37,7 +37,6 @@ class MemcacheStore extends StoreAbstract
             'config'   => $this->config,
             'stats'    => $this->app->getStats(),
             'stat_all' => $this->app->getExtendedStats(),
-            'isOnline' => $this->app->getServerStatus(),
             'version'  => $this->app->getVersion(),
         );
     }
