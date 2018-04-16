@@ -54,7 +54,7 @@ class RedisStore extends StoreAbstract
      */
     public function get($key)
     {
-        $data = $this->get($key);
+        $data = $this->app->get($key);
         if (json_decode($data)) {
             return json_decode($data);
         }
