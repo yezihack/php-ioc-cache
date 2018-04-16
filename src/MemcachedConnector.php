@@ -43,6 +43,7 @@ class MemcachedConnector
             throw new \Exception('memcached switch does not set true');
         }
         $link = new \Memcached('memcached_pool');
+        $link->setOption(\Memcached::OPT_LIBKETAMA_COMPATIBLE, true);
         $bool = $link->addServers($config['hosts']);
         if (!$bool) {
             throw new \Exception('Memcached engine connection is fail');
@@ -56,7 +57,7 @@ class MemcachedConnector
         if (isset($config['is_zip'])) {
             $link->setOption(\Memcached::OPT_COMPRESSION, $config['is_zip']);
         }
-        $link->setOption(\Memcached::OPT_LIBKETAMA_COMPATIBLE, true);
+
         return $link;
     }
 }
