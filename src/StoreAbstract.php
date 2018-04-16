@@ -54,4 +54,8 @@ abstract class StoreAbstract implements StoreInterface
         }
         return unserialize($value);
     }
+    public function __call($name, $arguments)
+    {
+        
+    }
 }
