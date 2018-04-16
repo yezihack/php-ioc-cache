@@ -80,4 +80,20 @@ class Cache extends CacheManager
             return new MemcachedStore(MemcachedConnector::getInstance($config), $config);
         });
     }
+    /**
+     * 注册redis
+     * @param $config
+     * @throws \Exception
+     */
+    public static function registerRedis($config)
+    {
+        $engine = 'redis';
+        if (!isset($config[$engine])) {
+            throw new \Exception('The configuration item does not have a ' . $engine . ' node.');
+        }
+        $config = $config[$engine];
+        CacheContainer::bind($engine, function () use ($config) {
+            return new RedisStore(RedisConnector::getInstance($config), $config);
+        });
+    }
 }

@@ -11,10 +11,11 @@ abstract class StoreAbstract implements StoreInterface
 {
     protected $app;
     protected $config = array(//默认配置
-        'preFix'    => '',//前缀
-        'expired'   => 7200,//存储时间,分钟
-        'is_zip'    => 0,//是否压缩
-        'zip_level' => 6, //压缩等级
+        'preFix'       => '',//前缀
+        'expired'      => 7200,//存储时间,分钟
+        'is_zip'       => 0,//是否压缩
+        'zip_level'    => 6, //压缩等级
+        'forever_second' => 2592000,//30天
     );
 
 
