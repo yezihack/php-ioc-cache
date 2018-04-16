@@ -46,6 +46,13 @@ use SgIoc\Cache\Cache;
 Cache::register();
 ```
 
+## 快捷操作
+- Cache::get();是默认的缓存对象,可以Cache::store切换不同的引擎 
+- FCache::get();文件缓存操作
+- MCache::get();memcache缓存操作
+- DCache::get();memcached缓存操作
+- RCache::get();redis缓存操作
+
 ## put 写入缓存,保存时间10分钟,也支持匿名写法
 ```php
 #普通用法
