@@ -19,11 +19,13 @@ class CacheManager
 
     /**
      * 获取实例
+     * @param null $store
      * @return mixed
      */
-    public static function link()
+    public static function link($store = null)
     {
-        $link = self::store(static::$default_store);
+        $store = is_null($store) ? static::$default_store : $store;
+        $link  = self::store($store);
         return $link->getInstance();
     }
 

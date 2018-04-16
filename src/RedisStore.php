@@ -32,6 +32,11 @@ class RedisStore extends StoreAbstract
         );
     }
 
+    public function getInstance()
+    {
+        return $this->app;
+    }
+
     /**
      * 判断key是否存在
      * @param $key
