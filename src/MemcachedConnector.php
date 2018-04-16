@@ -38,8 +38,14 @@ class MemcachedConnector
         if (!extension_loaded('memcached')) {
             throw new \Exception('Memcached extension is not installed.');
         }
+        if (isset($config['open']) && !$config['open']) {
+            throw new \Exception('memcached switch does not set true');
+        }
         $link = new \Memcached();
-        $link->addServers($config['hosts']);
+        $bool = $link->addServers($config['hosts']);
+        if(!$bool) {
+            throw new \Exception('Memcached engine connection is fail');
+        }
         if (isset($config['preFix'])) {
             $link->setOption(\Memcached::OPT_PREFIX_KEY, $config['preFix']);
         }

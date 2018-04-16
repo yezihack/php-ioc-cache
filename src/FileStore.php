@@ -19,6 +19,9 @@ class FileStore extends StoreAbstract
         if (!is_null($config)) {
             $this->config = array_merge($this->config, $config);
         }
+        if (isset($config['open']) && !$config['open']) {
+            throw new \Exception('file switch does not set true');
+        }
         if (!isset($config['path'])) {
             throw new \Exception('The ' . __METHOD__ . ' engine configure item does not have a path node.');
         }
@@ -232,7 +235,7 @@ class FileStore extends StoreAbstract
 
     public function close()
     {
-     
+
     }
 
     /**

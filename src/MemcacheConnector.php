@@ -38,12 +38,15 @@ class MemcacheConnector
         if (!extension_loaded('memcache')) {
             throw new \Exception('memcache extension is not installed.');
         }
+        if (isset($config['open']) && !$config['open']) {
+            throw new \Exception('memcache switch does not set true');
+        }
         $link = new \Memcache();
         if (!is_array($config['hosts'])) {
             throw new \Exception('hosts item does not array.');
         }
         foreach ($config['hosts'] as $item) {
-            $link->addServer($item[0], $item[1], true, $item[2]);
+            $bool = $link->addServer($item[0], $item[1], true, $item[2]);
         }
         return $link;
     }

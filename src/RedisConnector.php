@@ -40,8 +40,14 @@ class RedisConnector
         if (!extension_loaded('redis')) {
             throw new \Exception('Redis extension is not installed.');
         }
+        if (isset($config['open']) && !$config['open']) {
+            throw new \Exception('Redis switch does not set true');
+        }
         $link = new \Redis();
         $link->connect($config['hosts']);
+        if (!$link->ping()) {
+            throw new \Exception('Redis engine connection is fail');
+        }
         if (isset($config['auth']) && $config['auth'] != '') {
             $link->auth($config['auth']);
         }
