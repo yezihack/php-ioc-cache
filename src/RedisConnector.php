@@ -44,8 +44,8 @@ class RedisConnector
             throw new \Exception('Redis switch does not set true');
         }
         $link = new \Redis();
-        $link->connect($config['hosts']);
-        if (!$link->ping()) {
+        $bool = $link->connect(array_shift($config['host']), array_shift($config['host']));
+        if (!$bool || !$link->ping()) {
             throw new \Exception('Redis engine connection is fail');
         }
         if (isset($config['auth']) && $config['auth'] != '') {
