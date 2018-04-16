@@ -8,6 +8,8 @@
 
 提供memcache图形管理
 
+支持file,memcached,redis存储
+
 ## 条件
 - 必须安装memcached服务[http://memcached.org/](http://memcached.org/)
 - 安装php pecl memcached[http://pecl.php.net/package/memcached](http://pecl.php.net/package/memcached),而非memcache扩展
@@ -31,6 +33,8 @@
 - src/MemcachedConnector memcached实例单例对象
 - src/MemcachedStore memcached存储引擎
 - src/MemcacheGc memcache垃圾回收机制
+- src/RedisConnector redis实例单例对象
+- src/RedisStore redis存储引擎
 - test/* 提供更多实例
 - test/config.php 标准配置文件
 - test/memcache-tools.php 提供memcache图形管理
