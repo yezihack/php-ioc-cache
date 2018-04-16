@@ -28,6 +28,7 @@ class Cache extends CacheManager
         self::registerFile($config);
         self::registerMemcache($config);
         self::registerMemcached($config);
+        self::registerRedis($config);
     }
 
     /**
@@ -80,6 +81,7 @@ class Cache extends CacheManager
             return new MemcachedStore(MemcachedConnector::getInstance($config), $config);
         });
     }
+
     /**
      * 注册redis
      * @param $config
