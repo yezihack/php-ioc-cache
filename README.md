@@ -53,6 +53,13 @@ Cache::register();
 - DCache::get();memcached缓存操作
 - RCache::get();redis缓存操作
 
+## 支持原生对象的方法调用
+- 如RedisStore里没有提供lpush方法,但phpredis扩展里有,只需RCache::lpush(key,value)即可.其它缓存一样支持 
+
+## 获取引擎的实例
+- Cache::link();获取默认的引擎实例
+- RCache::link('redis');获取redis引擎实例 
+
 ## put 写入缓存,保存时间10分钟,也支持匿名写法
 ```php
 #普通用法

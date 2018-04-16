@@ -6,6 +6,7 @@ CHANGELOG
 - 新增redis引擎
 - 添加DCache,RCache快捷操作
 - DCache 是memcached的快捷操作 MCache是memcache的操作,请注意区分
+- 支持原生对象的方法调用(非常实用)
 
 2018-04-09 v1.0.6
 ------------------
