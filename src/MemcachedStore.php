@@ -77,7 +77,7 @@ class MemcachedStore extends StoreAbstract
      * @param bool $default 支持匿名函数
      * @return array|bool|string
      */
-    public function get($key, $default = false)
+    public function get($key, $default = null)
     {
         $value = $this->app->get($key);
         if ($value !== false) {
@@ -200,8 +200,7 @@ class MemcachedStore extends StoreAbstract
      */
     public function remember($key, $minutes, $callback)
     {
-        $value = $this->get($key);
-        if (!is_null($value)) {
+        if (!is_null($value = $this->get($key))) {
             return $value;
         }
         $this->put($key, $value = $this->value($callback), $minutes);

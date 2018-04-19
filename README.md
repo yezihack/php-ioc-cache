@@ -18,7 +18,7 @@
 
 
 ## 更新日志
-[更新日志v1.0.6](CHANGELOG.md)
+[更新日志v1.0.8](CHANGELOG.md)
 
 ## 文件列表
 - autoload.php 注册自动加载函数,加入项目只需此文件即可

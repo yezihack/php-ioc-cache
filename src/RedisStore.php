@@ -52,10 +52,13 @@ class RedisStore extends StoreAbstract
      * @param $key
      * @return mixed
      */
-    public function get($key)
+    public function get($key, $default = null)
     {
         $data = $this->app->get($key);
-        return $this->unserialize($data);
+        if ($data !== false) {
+            return $this->unserialize($data);
+        }
+        return $this->value($default);
     }
 
     /**
