@@ -55,10 +55,7 @@ class RedisStore extends StoreAbstract
     public function get($key)
     {
         $data = $this->app->get($key);
-        if (json_decode($data)) {
-            return json_decode($data);
-        }
-        return $data;
+        return $this->unserialize($data);
     }
 
     /**
@@ -99,9 +96,7 @@ class RedisStore extends StoreAbstract
     {
         $value  = $this->value($value);
         $second = is_null($minutes) ? $this->config['expired'] : $minutes * 60;
-        if (is_array($value) || is_object($value)) {
-            $value = json_encode($value);
-        }
+        $value  = $this->serialize($value);
         return $this->app->set($key, $value, $second);
     }
 
