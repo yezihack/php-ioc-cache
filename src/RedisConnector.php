@@ -54,7 +54,7 @@ class RedisConnector
         if (isset($config['preFix']) && $config['preFix'] != '') {
             $link->setOption(\Redis::OPT_PREFIX, $config['preFix']);
         }
-        if (extension_loaded('igbinary')) {
+        if (extension_loaded('igbinary') && defined('SERIALIZER_IGBINARY')) {
             $link->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_IGBINARY);
         }
         return $link;

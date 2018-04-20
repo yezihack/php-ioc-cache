@@ -3,6 +3,11 @@ CHANGELOG
 
 2018-04-19 v1.0.8
 ------------------
+- 解决报Undefined class constant 'SERIALIZER_IGBINARY'
+- [解决方案](http://www.sgfoot.com/view/125)
+
+2018-04-19 v1.0.8
+------------------
 - 修改memcached get返回false的bug,空值应为null
 
 2018-04-16 v1.0.7
